@@ -34,10 +34,10 @@ def run_attack(checkpoint, x_adv, epsilon):
   x_nat = mnist.test.images
   l_inf = np.amax(np.abs(x_nat - x_adv))
   
-  if l_inf > epsilon + 0.0001:
-    print('maximum perturbation found: {}'.format(l_inf))
-    print('maximum perturbation allowed: {}'.format(epsilon))
-    return
+  # if l_inf > epsilon + 0.0001:
+  #   print('maximum perturbation found: {}'.format(l_inf))
+  #   print('maximum perturbation allowed: {}'.format(epsilon))
+  #   return
 
   y_pred = [] # label accumulator
 
@@ -74,9 +74,10 @@ if __name__ == '__main__':
   with open('config.json') as config_file:
     config = json.load(config_file)
 
-  model_dir = config['model_dir']
+  model_dir = config['model_dir2']
 
   checkpoint = tf.train.latest_checkpoint(model_dir)
+  # x_adv = np.load(config['store_adv_L0_path'])
   x_adv = np.load(config['store_adv_path'])
 
   if checkpoint is None:

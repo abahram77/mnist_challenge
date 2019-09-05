@@ -9,6 +9,7 @@ from __future__ import print_function
 
 import tensorflow as tf
 import numpy as np
+from PIL import Image
 
 
 class LinfPGDAttack:
@@ -48,6 +49,20 @@ class LinfPGDAttack:
       x = np.clip(x, 0, 1) # ensure valid pixel range
     else:
       x = np.copy(x_nat)
+    for k in range(len(x)):
+      first_image = x[k]
+      first_image = np.array(first_image, dtype='float')
+      pixels = first_image.reshape((28, 28))
+
+      # scipy.misc.imsave('/pics'+'/pic'+str(k)+'.jpg', pixels)
+
+
+
+      # convert values to 0 - 255 int8 format
+      formatted = (pixels * 255 / np.max(pixels)).astype('uint8')
+      img = Image.fromarray(formatted)
+      path = 'C:/Users/abahram77/PycharmProjects/mnist_challenge/mnist_challenge/pgd_pics_nonPerturbed/'
+      img.save(path + 'pic' + str(k) + '.png')
 
     for i in range(self.k):
       grad = sess.run(self.grad, feed_dict={self.model.x_input: x,
@@ -57,6 +72,21 @@ class LinfPGDAttack:
 
       x = np.clip(x, x_nat - self.epsilon, x_nat + self.epsilon) 
       x = np.clip(x, 0, 1) # ensure valid pixel range
+
+    for k in range(len(x)):
+      first_image = x[k]
+      first_image = np.array(first_image, dtype='float')
+      pixels = first_image.reshape((28, 28))
+
+      # scipy.misc.imsave('/pics'+'/pic'+str(k)+'.jpg', pixels)
+
+
+
+      # convert values to 0 - 255 int8 format
+      formatted = (pixels * 255 / np.max(pixels)).astype('uint8')
+      img = Image.fromarray(formatted)
+      path = 'C:/Users/abahram77/PycharmProjects/mnist_challenge/mnist_challenge/pgd_pics_Perturbed/'
+      img.save(path + 'pic' + str(k) + '.png')
 
     return x
 
@@ -73,7 +103,7 @@ if __name__ == '__main__':
   with open('config.json') as config_file:
     config = json.load(config_file)
 
-  model_file = tf.train.latest_checkpoint(config['model_dir'])
+  model_file = tf.train.latest_checkpoint(config['model_dir2'])
   if model_file is None:
     print('No model found')
     sys.exit()

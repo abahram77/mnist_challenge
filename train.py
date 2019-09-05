@@ -15,7 +15,7 @@ import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 
 from model import Model
-from pgd_attack import LinfPGDAttack
+from L0_attack import L0Attack
 
 with open('config.json') as config_file:
     config = json.load(config_file)
@@ -40,15 +40,15 @@ train_step = tf.train.AdamOptimizer(1e-4).minimize(model.xent,
                                                    global_step=global_step)
 
 # Set up adversary
-attack = LinfPGDAttack(model, 
+attack = L0Attack(model,
                        config['epsilon'],
-                       config['k'],
+                       config['threshold'],
                        config['a'],
                        config['random_start'],
                        config['loss_func'])
 
 # Setting up the Tensorboard and checkpoint outputs
-model_dir = config['model_dir']
+model_dir = config['model_dir2']
 if not os.path.exists(model_dir):
   os.makedirs(model_dir)
 

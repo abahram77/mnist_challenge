@@ -1,6 +1,8 @@
 {
   "_comment": "===== MODEL CONFIGURATION =====",
   "model_dir": "models/a_very_robust_model",
+  "model_dir2": "models/a_very_robust_model2",
+  "model_dirTest": "models/a_very_robust_modelTest",
 
   "_comment": "===== TRAINING CONFIGURATION =====",
   "random_seed": 4557077,
@@ -17,9 +19,11 @@
 
   "_comment": "=====ADVERSARIAL EXAMPLES CONFIGURATION=====",
   "epsilon": 0.3,
-  "k": 40,
+  "k": 150,
+  "threshold":56,
   "a": 0.01,
   "random_start": true,
   "loss_func": "xent",
-  "store_adv_path": "attack.npy"
+  "store_adv_path": "attack.npy",
+  "store_adv_L0_path": "attackL0.npy"
 }
